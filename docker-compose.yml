@@ -1,0 +1,21 @@
+version: '3.1'
+services:
+  mongo:
+    image: arm64v8/mongo:latest
+    restart: always
+    hostname: mongo
+    # environment:
+    #   - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+    #   - MONGO_INITDB_ROOT_PASSWORD=secret
+    ports:
+      - "27017:27017"
+
+  demo:
+    image: mongp-demo:latest
+    depends_on:
+      - mongo
+    environment:
+      - host=mongo
+    command:
+      - make
+      - init-sql
